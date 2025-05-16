@@ -1,0 +1,24 @@
+services:
+  dlpsvc:
+    build:
+      context: docker/dlpsvc
+      dockerfile: Dockerfile
+      # args:
+      #   SSH_DIR:
+    image: dlpsvc:latest
+    env_file:
+      - .env
+    environment:
+      - COMPOSE_DOCKER_CLI_BUILD=1
+      - DOCKER_BUILDKIT=1
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
+      - COMPOSE_REMOVE_ORPHANS=1
+    volumes:
+      - ./opt:/opt
+      - /Users/dalvarezpons/.ssh:/home/dev/.ssh # Needed for git clones
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+      - MKNOD
+    command: "./obj/nsdlp -c ./cfg/nsdlpsvc_dev.cfg"
+    restart: always

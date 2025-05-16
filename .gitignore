@@ -1,0 +1,4 @@
+opt/*
+!opt/.gitkeep
+.env*
+!.env.example
