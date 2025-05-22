@@ -9,6 +9,10 @@ services:
       - ${GIT_ROOT}/dataplane:/home/dev/dataplane
       - ${GIT_ROOT}/opt:/opt
       - ${HOME}/.ssh:/home/dev/.ssh # Needed for git clones
+      # Smooth UX
+      - ${HOME}/.bashrc:/home/dev/.bashrc
+      - ${HOME}/.gitconfig:/home/dev/.gitconfig
+      - ${HOME}/.git:/home/dev/.git
     privileged: true
     cap_add:
       - SYS_ADMIN
@@ -34,6 +38,10 @@ services:
     env_file:
       - .env
     volumes:
+      # Smooth UX
+      - ${HOME}/.bashrc:/home/dev/.bashrc
+      - ${HOME}/.gitconfig:/home/dev/.gitconfig
+      - ${HOME}/.git:/home/dev/.git
       # Needed for git clones
       - ${HOME}/.ssh:/home/dev/.ssh
       # Add raw repository
