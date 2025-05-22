@@ -50,13 +50,24 @@ services:
       - ${GIT_ROOT}/service:/home/dev/service
       # End service repository
       # Simulate EDK Sandbox VM (https://netskope.atlassian.net/wiki/spaces/~717522665/pages/984580274/EDK+Sandbox+VM)
+      ## /autonomy
+      ### /bin - Contains only the edktool.exe program
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/bin:/home/dev/edk/autonomy/bin
-      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/lic:/home/dev/edk/autonomy/license
-      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/grammars:/home/dev/edk/autonomy/grammars
+      ###   /config - Contains only the configuration files used with edktool.exe
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/cfg:/home/dev/edk/autonomy/config
-      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/src/ecr:/home/dev/edk/entities
-      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/src/test/data:/home/dev/edk/test
+      ###   /docs - Contains basic EDK documentation supplied by Autonomy/MicroFocus (NOT MOUNTED)
+      ###   /grammars - Contains only the default EDK grammars supplied by Autonomy/MicroFocus.
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/grammars:/home/dev/edk/autonomy/grammars
+      ###   /license - Contains only the license file needed to run edktool.exe
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/lic:/home/dev/edk/autonomy/license
+      ## /ecr - This is where test ECR files end up after generation (should be pointed by $BUILD_ECR_DEST_FOLDER)
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/output:${BUILD_ECR_DEST_FOLDER}
+      ###   /production - Contains all the Netskope-generated ECR files (NOT MOUNTED)
+      ## /entities - Contains source files for ECR files.
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/src/ecr:/home/dev/edk/entities
+      ## /test - Contains ASCII text files used to test generated ECR files.
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/src/test/data:/home/dev/edk/test
+      ## /build.sh - Shortcut for ./bin/build.sh
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/bin/build.sh:/home/dev/edk/build.sh
       # End EDK Sandbox VM
       # Other convenient volumes
