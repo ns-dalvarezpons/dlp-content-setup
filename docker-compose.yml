@@ -59,6 +59,9 @@ services:
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/output:${BUILD_ECR_DEST_FOLDER}
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/bin/build.sh:/home/dev/edk/build.sh
       # End EDK Sandbox VM
+      # Other convenient volumes
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/bin:/home/dev/edk/bin
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p:/home/dev/edk/3p
     stdin_open: true
     tty: true
     cap_add:
