@@ -25,7 +25,7 @@ stop: ## Stop the project
 	@$(setup_env) \
 	docker-compose down
 
-dev-%: ## Open a terminal in the chosen service
+dev-%: ## Open a terminal in the chosen service: edk, dataplane, service
 	@$(setup_env) \
 	docker-compose exec -it $* bash
 
