@@ -48,7 +48,6 @@ services:
       - ${GIT_ROOT}/dlp-ci-content:/home/dev/dlp-ci-content
       # Not sure if service is needed
       - ${GIT_ROOT}/service:/home/dev/service
-      - ${GIT_ROOT}/dlp-ci-content:/opt/autonomy # This is needed for service repo: `make dlpcicontent`
       # End service repository
       # Simulate EDK Sandbox VM (https://netskope.atlassian.net/wiki/spaces/~717522665/pages/984580274/EDK+Sandbox+VM)
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/bin:/home/dev/edk/autonomy/bin
