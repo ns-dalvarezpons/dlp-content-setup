@@ -1,24 +1,63 @@
 services:
-  dlpsvc:
+  dataplane:
     build:
-      context: docker/dlpsvc
+      context: docker/dataplane
       dockerfile: Dockerfile
-      # args:
-      #   SSH_DIR:
-    image: dlpsvc:latest
-    env_file:
-      - .env
-    environment:
-      - COMPOSE_DOCKER_CLI_BUILD=1
-      - DOCKER_BUILDKIT=1
-      - DOCKER_DEFAULT_PLATFORM=linux/amd64
-      - COMPOSE_REMOVE_ORPHANS=1
+    image: dlp-setup-dataplane:latest
+    container_name: dlp-setup-dataplane
     volumes:
-      - ./opt:/opt
-      - /Users/dalvarezpons/.ssh:/home/dev/.ssh # Needed for git clones
+      - ${GIT_ROOT}/dataplane:/home/dev/dataplane
+      - ${GIT_ROOT}/opt:/opt
+      - ${HOME}/.ssh:/home/dev/.ssh # Needed for git clones
     privileged: true
     cap_add:
       - SYS_ADMIN
       - MKNOD
-    command: "./obj/nsdlp -c ./cfg/nsdlpsvc_dev.cfg"
     restart: always
+    command: ["tail", "-f", "/dev/null"]
+  svcbuilder:
+    extends:
+      file: ${GIT_ROOT}/service/builder/docker-compose.yaml
+      service: svcbuilder
+    image: svcbuilder:${DEVX_VER}
+    container_name: dlp-setup-service
+    volumes:
+      - ${GIT_ROOT}/dlp-ci-content:/opt/autonomy
+    command: ["tail", "-f", "/dev/null"]
+  edk:
+    build:
+      context: docker/edk
+    image: dlp-setup-edk:latest
+    container_name: dlp-setup-edk
+    environment:
+      - NS_BUILD_DIR=${GIT_ROOT}/service
+    env_file:
+      - .env
+    volumes:
+      # Needed for git clones
+      - ${HOME}/.ssh:/home/dev/.ssh
+      # Add raw repository
+      - ${GIT_ROOT}/dlp-ci-content:/home/dev/dlp-ci-content
+      # Not sure if service is needed
+      - ${GIT_ROOT}/service:/home/dev/service
+      - ${GIT_ROOT}/dlp-ci-content:/opt/autonomy # This is needed for service repo: `make dlpcicontent`
+      # End service repository
+      # Simulate EDK Sandbox VM (https://netskope.atlassian.net/wiki/spaces/~717522665/pages/984580274/EDK+Sandbox+VM)
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/bin:/home/dev/edk/autonomy/bin
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/lic:/home/dev/edk/autonomy/license
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/grammars:/home/dev/edk/autonomy/grammars
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/cfg:/home/dev/edk/autonomy/config
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/src/ecr:/home/dev/edk/entities
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/src/test/data:/home/dev/edk/test
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/output:${BUILD_ECR_DEST_FOLDER}
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/bin/build.sh:/home/dev/edk/build.sh
+      # End EDK Sandbox VM
+    stdin_open: true
+    tty: true
+    cap_add:
+      - SYS_ADMIN
+      - MKNOD
+    platform: linux/amd64
+    privileged: true
+    restart: always
+    command: ["tail", "-f", "/dev/null"]

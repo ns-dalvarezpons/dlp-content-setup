@@ -1,4 +1,9 @@
-# Makefile
+# Reusable list of commands to set up environment
+define setup_env
+	export $(shell grep -v '^#' .env | sed 's/=.*//' | xargs); \
+	DEVX_VER=$$(docker images | grep svcbuilder | awk '{print $$2}'); \
+	export DEVX_VER;
+endef
 
 # Phony targets
 .PHONY: help build clean
@@ -9,10 +14,16 @@ help: ## Show this help message
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  %-10s - %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 build: ## Build the project
-	@echo "Building the project..."
-	@cp -rf ~/.ssh ./config/
-	docker-compose build --progress=plain --no-cache
-	@rm -rf ./config .ssh
+	@$(setup_env) \
+	docker-compose build
+
+start: ## Start the project
+	@$(setup_env) \
+	docker-compose up -d --remove-orphans
+
+stop: ## Stop the project
+	@$(setup_env) \
+	docker-compose down
 
 clean: ## Clean up generated files
 	@echo "Cleaning up..."
