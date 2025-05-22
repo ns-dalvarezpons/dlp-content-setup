@@ -25,5 +25,9 @@ stop: ## Stop the project
 	@$(setup_env) \
 	docker-compose down
 
+dev-%: ## Open a terminal in the chosen service
+	@$(setup_env) \
+	docker-compose exec -it $* bash
+
 clean: ## Clean up generated files
 	@echo "Cleaning up..."
