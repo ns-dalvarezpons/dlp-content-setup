@@ -61,7 +61,7 @@ services:
       ###   /license - Contains only the license file needed to run edktool.exe
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/3p/${BUILD_ECR_EDK_VERSION}/lic:/home/dev/edk/autonomy/license
       ## /ecr - This is where test ECR files end up after generation (should be pointed by $BUILD_ECR_DEST_FOLDER)
-      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/output:${BUILD_ECR_DEST_FOLDER}
+      - ${GIT_ROOT}/dlp-ci-content/EductionSDK/build:${BUILD_ECR_DEST_FOLDER}
       ###   /production - Contains all the Netskope-generated ECR files (NOT MOUNTED)
       ## /entities - Contains source files for ECR files.
       - ${GIT_ROOT}/dlp-ci-content/EductionSDK/src/ecr:/home/dev/edk/entities
