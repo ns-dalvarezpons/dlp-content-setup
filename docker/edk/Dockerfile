@@ -25,13 +25,6 @@ RUN apt-get install -y \
     software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
-# TODO
-# RUN add-apt-repository universe && \
-#     apt-get update && \
-#     apt-get install -y python3.8 python3.8-dev python3.8-venv python3-pip && \
-#     ln -s /usr/bin/python3 /usr/bin/python && \
-#     rm -rf /var/lib/apt/lists/*
-
 RUN useradd -ms /bin/bash dev
 # Warning:  password hardcoded
 RUN echo "dev:test123" | chpasswd
