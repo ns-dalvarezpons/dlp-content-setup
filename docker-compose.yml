@@ -102,3 +102,21 @@ services:
       - MKNOD
     restart: always
     command: ["tail", "-f", "/dev/null"]
+  dataplane-test-data:
+    build:
+      context: docker/dataplane-test-data
+      dockerfile: Dockerfile
+    image: dlp-setup-dataplane-test-data:latest
+    container_name: dlp-setup-dataplane-test-data
+    volumes:
+      - ${GIT_ROOT}/dataplane-test-data:/home/dev/dataplane-test-data
+      # Smooth UX
+      - ${HOME}/.bashrc:/home/dev/.bashrc
+      - ${HOME}/.gitconfig:/home/dev/.gitconfig
+      - ${HOME}/.git:/home/dev/.git
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+      - MKNOD
+    restart: always
+    command: ["tail", "-f", "/dev/null"]
