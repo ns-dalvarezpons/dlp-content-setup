@@ -32,7 +32,7 @@ git clone git@github.com:ns-dalvarezpons/dlp-content-setup.git
 ```bash
 cd dlp-content-setup
 ```
-5. Now copy the `.env.example` into `.env`, this is the file that the repository will use, feel free to complete the empty/pending environment variables with your data. Do not worry if some folders do not exist yet.
+5. Now, duplicate `.env.example` and rename the copy to `.env`, this is the file that the repository will use, feel free to complete the empty/pending environment variables with your data. Do not worry if some folders do not exist yet.
 6. Continue in [this guide](https://netskope.atlassian.net/wiki/spaces/~7120206cd3d31a126c4ac698f8d9f8d0bc6e99/pages/5567480072/DLP+Content+-+Development+Environment+Windows+11)
 
 ## Regular use
