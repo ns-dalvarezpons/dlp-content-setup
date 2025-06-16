@@ -13,7 +13,7 @@ help: ## Show this help message
 	@echo "Available commands:"
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  %-10s - %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-build: ## Build the project
+build: build_svcbuilder ## Build the project
 	@$(setup_env) \
 	docker-compose build
 
@@ -29,5 +29,11 @@ dev-%: ## Open a terminal in the chosen service: edk, dataplane, service, toolin
 	@$(setup_env) \
 	docker-compose exec -it $* bash
 
-clean: ## Clean up generated files
+clean: stop ## Clean up generated files
 	@echo "Cleaning up..."
+	docker rm -f $(docker ps -aq) 2>/dev/null || true
+	docker rmi $$(docker images -q) -f 2>/dev/null || true
+
+build_svcbuilder: ## Build the svcbuilder image
+	@echo "Building svcbuilder image..."
+	cd ../service && ./setup-devx-2004.sh minimaldev exit;
