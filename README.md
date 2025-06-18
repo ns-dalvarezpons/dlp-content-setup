@@ -89,3 +89,12 @@ If you want to save resources or simply want to gracefully shut down the system,
 ```bash
 make down
 ```
+
+### Clean the resources
+
+If you want to remove all docker resources, use the following command:
+```bash
+make clean
+```
+
+:warning: Take into account that this command will clean *all* docker images, container, and cache entries created not only by this repository but by any other process in your computer.
