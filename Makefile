@@ -31,7 +31,7 @@ dev-%: ## Open a terminal in the chosen service: edk, dataplane, service, toolin
 
 clean: stop ## Clean up generated files
 	@echo "Cleaning up..."
-	docker rm -f $(docker ps -aq) 2>/dev/null || true
+	docker rm -f $$(docker ps -aq) 2>/dev/null || true
 	docker rmi $$(docker images -q) -f 2>/dev/null || true
 
 build_svcbuilder: ## Build the svcbuilder image
