@@ -11,6 +11,7 @@ services:
       - ${HOME}/.ssh:/home/dev/.ssh # Needed for git clones
       # Smooth UX
       - ${HOME}/.bashrc:/home/dev/.bashrc
+      - /usr/share/bash-completion/bash_completion:/etc/bash_completion
       - ${HOME}/.gitconfig:/home/dev/.gitconfig
       - ${HOME}/.git:/home/dev/.git
     privileged: true
@@ -40,6 +41,7 @@ services:
     volumes:
       # Smooth UX
       - ${HOME}/.bashrc:/home/dev/.bashrc
+      - /usr/share/bash-completion/bash_completion:/etc/bash_completion
       - ${HOME}/.gitconfig:/home/dev/.gitconfig
       - ${HOME}/.git:/home/dev/.git
       # Needed for git clones
@@ -94,6 +96,7 @@ services:
       - ${HOME}/.ssh:/home/dev/.ssh # Needed for git clones
       # Smooth UX
       - ${HOME}/.bashrc:/home/dev/.bashrc
+      - /usr/share/bash-completion/bash_completion:/etc/bash_completion
       - ${HOME}/.gitconfig:/home/dev/.gitconfig
       - ${HOME}/.git:/home/dev/.git
     privileged: true
@@ -112,6 +115,7 @@ services:
       - ${GIT_ROOT}/dataplane-test-data:/home/dev/dataplane-test-data
       # Smooth UX
       - ${HOME}/.bashrc:/home/dev/.bashrc
+      - /usr/share/bash-completion/bash_completion:/etc/bash_completion
       - ${HOME}/.gitconfig:/home/dev/.gitconfig
       - ${HOME}/.git:/home/dev/.git
     privileged: true
