@@ -36,6 +36,7 @@ services:
     container_name: dlp-setup-edk
     environment:
       - NS_BUILD_DIR=${GIT_ROOT}/service
+      - DRONE_BUILD_NUMBER=999 # used to facilitate the build process in the dev environment
     env_file:
       - .env
     volumes:
